@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView, DeleteView
 
 from .models import Bb, Rubric
 from django.template.loader import get_template
 from .forms import BbForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
 
 
@@ -49,6 +49,28 @@ def add_and_save(request):
         return render(request, 'bboard/create.html', context)
 
 
+# class BbCreateView(CreateView):
+#     template_name = 'bboard/create.html'
+#     form_class = BbForm
+#     success_url = reverse_lazy('index')
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['rubrics'] = Rubric.objects.all()
+#         return context
+
+
+# class BbRubricView(TemplateView):
+#     template_name = 'bboard/by_rubric.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['bbs'] = Bb.objects.filter(rubric=context['rubric_id'])
+#         context['rubrics'] = Rubric.objects.all()
+#         context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
+#         return context
+
+
 class BbDetailView(DetailView):
     model = Bb
 
@@ -58,17 +80,22 @@ class BbDetailView(DetailView):
         return context
 
 
-class BbByRubricView(ListView):
+class BbByRubricView(SingleObjectMixin, ListView):
     template_name = 'bboard/by_rubric.html'
-    context_object_name = 'bbs'
+    pk_url_kwarg = 'rubric_id'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Rubric.objects.all())
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Bb.objects.filter(rubric=self.kwargs['rubric_id'])
+        return self.object.bb_set.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['current_rubric'] = self.object
         context['rubrics'] = Rubric.objects.all()
-        context['current_rubric'] = Rubric.objects.get(self.kwargs['rubric_id'])
+        context['bbs'] = context['object_list']
         return context
 
 
@@ -92,3 +119,24 @@ class BbAddView(FormView):
 
     def get_success_url(self):
         return reverse('bboard:by_rubric', kwargs={'rubric_id': self.object.cleaned_data['rubric'].pk})
+
+
+class BbEditView(UpdateView):
+    model = Bb
+    form_class = BbForm
+    success_url = reverse_lazy('index')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+
+class BbDeleteView(DeleteView):
+    model = Bb
+    success_url = success_url = reverse_lazy('index')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
