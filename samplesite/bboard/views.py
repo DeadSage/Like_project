@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
 from django.views.generic.edit import FormView, UpdateView, DeleteView
@@ -19,7 +20,13 @@ from django.views.generic.list import ListView
 def index(request):
     bbs = Bb.objects.all()
     rubrics = Rubric.objects.all()
-    context = {'bbs': bbs, 'rubrics': rubrics}
+    paginator = Paginator(bbs, 2)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
     template = get_template('bboard/index.html')
     # return render(request, 'bboard/index.html', context)
     return HttpResponse(template.render(context=context, request=request))

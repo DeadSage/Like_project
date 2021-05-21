@@ -14,13 +14,13 @@
                 Объявления</h1>
         </header>
         <nav style="font-size: 16pt; width: 150px; float: left;">
-            <a style="display: block; margin: 10px 0px;"
+            <a style="display: block; margin: 10px 0px; text-decoration: none;"
                href="{% url 'index' %}">Главная</a>
              {% for rubric in rubrics %}
-                <a style="display: block; margin: 10px 0px;"
+                <a style="display: block; margin: 10px 0px;text-decoration: none;"
                    href="{% url 'by_rubric' rubric.pk %}">{{ rubric.name }}</a>
                 {% endfor %}
-            <a style="display: block; margin: 10px 0px;"
+            <a style="display: block; margin: 10px 0px; text-decoration: none;"
                href="{% url 'add' %}">Добавить</a>
         </nav>
         <section style="margin-left: 170px">

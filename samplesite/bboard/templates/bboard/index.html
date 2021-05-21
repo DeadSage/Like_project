@@ -4,13 +4,29 @@
 {% for bb in bbs %}
 <div>
     <hr>
-    <h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a> </h2>
+    <h2><a style="text-decoration: none;" href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a> </h2>
     <p>{{ bb.content|capfirst }}</p>
-    <p><a href="{% url 'by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
+    <p><a style="text-decoration: none;" href="{% url 'by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
     <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
-    <h4><a href="{% url 'edit' pk=bb.pk %}">{{ 'Изменить' }}</a> |
-        <a href="{% url 'edit' pk=bb.pk %}">{{ 'Удалить' }}</a> </h4>
+    <h4><a style=" text-decoration: none;" href="{% url 'edit' pk=bb.pk %}">{{ 'Изменить' }}</a> |
+        <a style=" text-decoration: none;" href="{% url 'edit' pk=bb.pk %}">{{ 'Удалить' }}</a> </h4>
 </div>
 {% endfor %}
+<div style="  color: #fff;
+  text-decoration: none;
+  user-select: none; /* убирать выделение текста */
+  background: black;
+  padding: .7em 1.5em;
+  outline: none; /* убирать контур в Mozilla */">
+        {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}">&lt;</a>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        {% endif %}
+        Часть №{{ page.number }} из {{ page.paginator.num_pages }}
+        {% if page.has_next %}
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="?page={{ page.next_page_number }}">&gt;</a>
+        {% endif %}
+    </div>
 {% endblock %}
 
