@@ -56,15 +56,15 @@ def add_and_save(request):
         return render(request, 'bboard/create.html', context)
 
 
-# class BbCreateView(CreateView):
-#     template_name = 'bboard/create.html'
-#     form_class = BbForm
-#     success_url = reverse_lazy('index')
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['rubrics'] = Rubric.objects.all()
-#         return context
+class BbCreateView(CreateView):
+    template_name = 'bboard/create.html'
+    form_class = BbForm
+    success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
 
 
 # class BbRubricView(TemplateView):
