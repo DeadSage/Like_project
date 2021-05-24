@@ -19,10 +19,10 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 urlpatterns = [
-    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/login/', LoginView.as_view(next='bboard/'), name='login'),
     path('accounts/password_change/', PasswordChangeView.as_view(
         template_name='registration/change_password.html'), name='password_change'),
-    path('accounts/logout/', LogoutView.as_view(next_page='bboard:index'), name='logout'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('accounts/password_change/done', PasswordChangeDoneView.as_view(
         template_name='registration/password_change.html'), name='password_change_done'),
     path('accounts/password_reset/', PasswordResetView.as_view(

@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 
@@ -10,34 +10,41 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
+from django.contrib.auth.decorators import login_required
 
 
 # def download(request):
 #     filename = '/Users/deadsage14235icloud.com/Desktop/кАзино кАзино/-EOUv6Nmw3E.jpg'
 #     return FileResponse(open(filename, 'rb'), as_attachment=True)
 
-
+# @login_required()
 def index(request):
-    bbs = Bb.objects.all()
-    rubrics = Rubric.objects.all()
-    paginator = Paginator(bbs, 2)
-    if 'page' in request.GET:
-        page_num = request.GET['page']
+    if request.user.is_authenticated:
+        bbs = Bb.objects.all()
+        rubrics = Rubric.objects.all()
+        paginator = Paginator(bbs, 2)
+        if 'page' in request.GET:
+            page_num = request.GET['page']
+        else:
+            page_num = 1
+        page = paginator.get_page(page_num)
+        context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
+        template = get_template('bboard/index.html')
+        # return render(request, 'bboard/index.html', context)
+        return HttpResponse(template.render(context=context, request=request))
     else:
-        page_num = 1
-    page = paginator.get_page(page_num)
-    context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
-    template = get_template('bboard/index.html')
-    # return render(request, 'bboard/index.html', context)
-    return HttpResponse(template.render(context=context, request=request))
+        return redirect('login')
 
 
 def by_rubric(request, rubric_id):
-    bbs = Bb.objects.filter(rubric=rubric_id)
-    rubrics = Rubric.objects.all()
-    current_rubric = Rubric.objects.get(pk=rubric_id)
-    context = {'bbs': bbs, 'rubrics': rubrics, 'current_rubric': current_rubric}
-    return render(request, 'bboard/by_rubric.html', context)
+    if request.user.is_authenticated:
+        bbs = Bb.objects.filter(rubric=rubric_id)
+        rubrics = Rubric.objects.all()
+        current_rubric = Rubric.objects.get(pk=rubric_id)
+        context = {'bbs': bbs, 'rubrics': rubrics, 'current_rubric': current_rubric}
+        return render(request, 'bboard/by_rubric.html', context)
+    else:
+        return HttpResponse('Гость не имеет доступа к списку рубрик')
 
 
 def add_and_save(request):
