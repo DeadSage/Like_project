@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class Bb(models.Model):
@@ -24,3 +26,10 @@ class Rubric(models.Model):
         verbose_name_plural = 'Рубрики'
         verbose_name = 'Рубрика'
         ordering = ['name']
+
+
+class Note(models.Model):
+    content = models.TextField()
+    content_types = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey(ct_field='content_type', fk_field='object_id')
