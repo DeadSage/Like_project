@@ -1,6 +1,7 @@
 from django import forms
 from django.core import validators
 from .models import Bb, Rubric
+from captcha.fields import CaptchaField
 
 
 class BbForm(forms.ModelForm):
@@ -13,6 +14,7 @@ class BbForm(forms.ModelForm):
     rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(),
                                     label='Рубрика', help_text='Категория товара',
                                     widget=forms.widgets.Select(attrs={'size': 5}))
+    captcha = CaptchaField()
 
     class Meta:
         model = Bb

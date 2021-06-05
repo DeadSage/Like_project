@@ -40,6 +40,7 @@ urlpatterns = [
              template_name='registration/password_confirmed.html'),
          name='password_reset_complete'),
     # path('', include('bboard.urls')),
+    path('captcha/', include('captcha.urls')),
     path('bboard/', include('bboard.urls')),
     path('admin/', admin.site.urls),
 ]
