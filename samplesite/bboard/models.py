@@ -28,8 +28,8 @@ class Rubric(models.Model):
         ordering = ['name']
 
 
-class Note(models.Model):
-    content = models.TextField()
-    content_types = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey(ct_field='content_type', fk_field='object_id')
+# class Note(models.Model):
+#     content = models.TextField()
+#     content_types = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+#     object_id = models.PositiveIntegerField()
+#     content_object = GenericForeignKey(ct_field='content_type', fk_field='object_id')
