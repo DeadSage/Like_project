@@ -19,3 +19,7 @@ class BbForm(forms.ModelForm):
     class Meta:
         model = Bb
         fields = ('title', 'content', 'price', 'rubric')
+
+    # class Meta:
+    #     model = Bb
+    #     fields = ('title', 'content', 'price', 'rubric')
