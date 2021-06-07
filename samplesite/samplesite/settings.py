@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bboard.apps.BboardConfig',
     'captcha',
-    'django.contrib.postgres',
+    # 'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [

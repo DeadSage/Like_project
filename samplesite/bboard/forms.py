@@ -20,6 +20,4 @@ class BbForm(forms.ModelForm):
         model = Bb
         fields = ('title', 'content', 'price', 'rubric')
 
-    # class Meta:
-    #     model = Bb
-    #     fields = ('title', 'content', 'price', 'rubric')
+
