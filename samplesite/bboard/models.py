@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from precise_bbcode.fields import BBCodeTextField
 
 
 class Bb(models.Model):

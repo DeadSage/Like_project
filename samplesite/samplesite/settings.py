@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'bboard.apps.BboardConfig',
     'captcha',
     # 'django.contrib.postgres',
+    # 'localflavor',
+    'precise_bbcode',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +134,4 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# SMILIES_UPLOAD_TO = "precise_bbcode/smilies"
