@@ -1,4 +1,5 @@
 {% extends "layout/basic.html" %}
+<!--{% load bootstrap4 %}-->
 
 {% block title %} Исправление объявления {% endblock %}
 
@@ -7,7 +8,8 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Сохранить">
+<!--    <input type="submit" value="Сохранить">-->
+    {% bootstrap_button content='Сохранить' button_type='submit' button_class='btn-primary' size='xs' %}
 </form>
 {% endblock %}
 
