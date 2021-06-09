@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 
-from .models import Bb, Rubric
+from .models import Bb, Rubric, Img
 from django.template.loader import get_template
 from .forms import BbForm
 from django.views.generic.edit import CreateView
@@ -154,3 +154,19 @@ class BbDeleteView(DeleteView):
         context = super().get_context_data(*args, **kwargs)
         context['rubrics'] = Rubric.objects.all()
         return context
+
+
+def add(request):
+    if request.method == 'POST':
+        form = ImgForm(request.POST, request.FILES)
+    if form.is_valid():
+        img = Img()
+        img.img = form.cleaned_data['img']
+        img.desc = form.cleaned_data['desc']
+        form.save()
+        # return redirect('testapp:index')
+        return redirect('bboard:index')
+    else:
+        form = ImgForm()
+        context = {'form': form}
+        return render(request, 'testapp/add.html', context)

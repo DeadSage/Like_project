@@ -29,6 +29,13 @@ class Rubric(models.Model):
         ordering = ['name']
 
 
+class Img(models.Model):
+    img = models.ImageField(verbose_name='Изображение', upload_to='')
+    desc = models.TextField(verbose_name='Описание')
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
 # class Note(models.Model):
 #     content = models.TextField()
 #     content_types = models.ForeignKey(ContentType, on_delete=models.CASCADE)
