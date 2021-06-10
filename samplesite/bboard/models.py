@@ -33,6 +33,10 @@ class Img(models.Model):
     img = models.ImageField(verbose_name='Изображение', upload_to='')
     desc = models.TextField(verbose_name='Описание')
 
+    def delete(self, *args, **kwargs):
+        self.img.delete(save=False)
+        super().delete(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'

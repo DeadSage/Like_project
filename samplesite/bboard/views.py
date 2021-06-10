@@ -5,7 +5,7 @@ from django.views.generic.edit import FormView, UpdateView, DeleteView
 
 from .models import Bb, Rubric, Img
 from django.template.loader import get_template
-from .forms import BbForm
+from .forms import BbForm, ImgForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
@@ -157,6 +157,7 @@ class BbDeleteView(DeleteView):
 
 
 def add(request):
+    """controller of adding imgFiles"""
     if request.method == 'POST':
         form = ImgForm(request.POST, request.FILES)
     if form.is_valid():
@@ -170,3 +171,10 @@ def add(request):
         form = ImgForm()
         context = {'form': form}
         return render(request, 'testapp/add.html', context)
+
+
+def delete(request, pk):
+    img = Img.objects.get(pk=pk)
+    img.img.delete()
+    img.delete()
+    return redirect('bboard:index')
