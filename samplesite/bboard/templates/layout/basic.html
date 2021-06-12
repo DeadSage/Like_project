@@ -17,14 +17,20 @@
                 Объявления</h1>
         </header>
         <nav style="font-size: 16pt; width: 150px; float: left;">
+            {% if user.is_authenticated %}
             <a style="display: block; margin: 10px 0px; text-decoration: none;"
                href="{% url 'index' %}">Главная</a>
+            {% endif %}
              {% for rubric in rubrics %}
                 <a style="display: block; margin: 10px 0px;text-decoration: none;"
                    href="{% url 'by_rubric' rubric.pk %}">{{ rubric.name }}</a>
                 {% endfor %}
+                {% if user.is_authenticated %}
                 <a style="display: block; margin: 10px 0px; text-decoration: none;"
                    href="{% url 'add' %}">Добавить</a>
+                <a style="display: block; margin: 370px 0px; text-decoration: none;"
+                   href="{% url 'logout' %}">Выйти</a>
+                {% endif %}
         </nav>
         <section style="margin-left: 170px">
             {% block content %}

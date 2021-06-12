@@ -25,7 +25,7 @@ urlpatterns = [
     path('', LoginView.as_view(), name='login'),
     path('accounts/password_change/', PasswordChangeView.as_view(
         template_name='registration/change_password.html'), name='password_change'),
-    path('accounts/logout/', LogoutView.as_view(next_page='bboard.urls'), name='logout'),
+    path('accounts/logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('accounts/password_change/done', PasswordChangeDoneView.as_view(
         template_name='registration/password_change.html'), name='password_change_done'),
     path('accounts/password_reset/', PasswordResetView.as_view(
@@ -45,7 +45,7 @@ urlpatterns = [
     # path('', include('bboard.urls')),
     path('captcha/', include('captcha.urls')),
     path('bboard/', include('bboard.urls')),
-    path('accounts/profile', include('bboard.urls')),
+    path('accounts/profile/', include('bboard.urls')),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
