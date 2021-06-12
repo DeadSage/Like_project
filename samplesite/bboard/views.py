@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 
 from .models import Bb, Rubric, Img
 from django.template.loader import get_template
-from .forms import BbForm, ImgForm
+from .forms import BbForm, ImgForm, LoginForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
@@ -158,7 +159,7 @@ def add(request):
         form = ImgForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-        # return redirect('testapp:index')
+            # return redirect('testapp:index')
             return redirect('bboard:index')
     else:
         form = ImgForm()
@@ -171,3 +172,9 @@ def delete(request, pk):
     img.img.delete()
     img.delete()
     return redirect('bboard:index')
+
+
+class LoginView(FormView):
+    template_name = "registration/login.html"
+
+    # def get

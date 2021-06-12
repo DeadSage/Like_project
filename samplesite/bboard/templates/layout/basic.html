@@ -23,8 +23,8 @@
                 <a style="display: block; margin: 10px 0px;text-decoration: none;"
                    href="{% url 'by_rubric' rubric.pk %}">{{ rubric.name }}</a>
                 {% endfor %}
-            <a style="display: block; margin: 10px 0px; text-decoration: none;"
-               href="{% url 'add' %}">Добавить</a>
+                <a style="display: block; margin: 10px 0px; text-decoration: none;"
+                   href="{% url 'add' %}">Добавить</a>
         </nav>
         <section style="margin-left: 170px">
             {% block content %}

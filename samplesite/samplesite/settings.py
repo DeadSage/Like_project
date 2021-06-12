@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'easy_thumbnails',
     'imagekit',
+    # 'social_django',
 ]
 
 MIDDLEWARE = [
@@ -73,11 +74,22 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.static'
+                'django.template.context_processors.static',
+                # 'social_django.contest_processors.backends',
+                # 'social_django.contest_processors.login_redirect',
             ],
         },
     },
 ]
+
+# AUTHENTICATION_BACKENDS = (
+#     'social_core.backend.vk.VKOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7878231'
+
+SOCIAL_AUTH_VK_OAUTH2_SECRET = '4pYy5OkYYLIx81tSgXgV'
 
 WSGI_APPLICATION = 'samplesite.wsgi.application'
 
@@ -110,8 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# LOGOUT_REDIRECT_URL = 'bboard:index'
-# LOGIN_REDIRECT_URL = 'bboard:index'
+LOGOUT_REDIRECT_URL = 'bboard:index'
+LOGIN_REDIRECT_URL = 'bboard:index'
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

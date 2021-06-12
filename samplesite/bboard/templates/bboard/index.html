@@ -1,5 +1,5 @@
 {% extends "layout/basic.html" %}
-
+{% load thumbnail %}
 {% block content %}
 {% for bb in bbs %}
 <div>
@@ -8,6 +8,8 @@
     <p>{{ bb.content|capfirst }}</p>
 <!--    <p>{{ bb.content.rendered }}</p>-->
     <p><a style="text-decoration: none;" href="{% url 'by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
+    <img src="/media/{{ post.img }}">
+    <img src="/media/{{ post.image_thumbnail.url }}">
     <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
     <h4><a style=" text-decoration: none;" href="{% url 'edit' pk=bb.pk %}">{{ 'Изменить' }}</a> |
         <a style=" text-decoration: none;" href="{% url 'edit' pk=bb.pk %}">{{ 'Удалить' }}</a> </h4>
