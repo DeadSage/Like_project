@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from precise_bbcode.fields import BBCodeTextField
+from imagekit.models import ImageSpecField, ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 
 class Bb(models.Model):
@@ -30,7 +32,12 @@ class Rubric(models.Model):
 
 
 class Img(models.Model):
-    img = models.ImageField(verbose_name='Изображение', upload_to='')
+    img = ProcessedImageField(upload_to='post_images', processors=[ResizeToFill(400, 200)],
+                              format='JPEG',
+                              options={'quality': 60})
+    image_thumbnail = ImageSpecField(source='img', processors=[ResizeToFill(100, 50)],
+                                     format='JPEG',
+                                     options={'quality': 60})
     desc = models.TextField(verbose_name='Описание')
 
     def delete(self, *args, **kwargs):

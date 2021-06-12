@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     # 'localflavor',
     'precise_bbcode',
     'bootstrap4',
+    'django_cleanup',
+    'easy_thumbnails',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +143,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# THUMBNAIL_ALIASES = {
+#     'bboard.Bb.pictupe': {
+#         'default': {
+#             'size': (500, 300),
+#             'crop': 'scale',
+#         },
+#     },
+# },

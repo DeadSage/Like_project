@@ -13,10 +13,6 @@ from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 
 
-# def download(request):
-#     filename = '/Users/deadsage14235icloud.com/Desktop/кАзино кАзино/-EOUv6Nmw3E.jpg'
-#     return FileResponse(open(filename, 'rb'), as_attachment=True)
-
 # @login_required()
 def index(request):
     if request.user.is_authenticated:
@@ -160,17 +156,14 @@ def add(request):
     """controller of adding imgFiles"""
     if request.method == 'POST':
         form = ImgForm(request.POST, request.FILES)
-    if form.is_valid():
-        img = Img()
-        img.img = form.cleaned_data['img']
-        img.desc = form.cleaned_data['desc']
-        form.save()
+        if form.is_valid():
+            form.save()
         # return redirect('testapp:index')
-        return redirect('bboard:index')
+            return redirect('bboard:index')
     else:
         form = ImgForm()
-        context = {'form': form}
-        return render(request, 'testapp/add.html', context)
+    context = {'form': form}
+    return render(request, 'bboard/add.html', context)
 
 
 def delete(request, pk):

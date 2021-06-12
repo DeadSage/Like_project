@@ -16,14 +16,10 @@ class BbForm(forms.ModelForm):
                                     widget=forms.widgets.Select(attrs={'size': 5}))
     captcha = CaptchaField()
 
-    img = forms.ImageField(label='Изображение',
-                           validators=[validators.FileExtensionValidator(allowed_extensions=('gif', 'jpg', 'png'))],
-                           error_messages={'invalid_extension': 'Этот формат не поддерживается'})
-
     class Meta:
         model = Img
         fields = '__all__'
-    # class Meta:
+        # class Meta:
         model = Bb
         fields = ('title', 'content', 'price', 'rubric')
 
