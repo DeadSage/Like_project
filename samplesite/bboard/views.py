@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 
 
 # @login_required()
@@ -177,4 +177,20 @@ def delete(request, pk):
 class LoginView(FormView):
     template_name = "registration/login.html"
 
-    # def get
+    def get(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        context = {'form': form}
+        return render(request, 'login.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        if form.is_valid():
+            username = self.cleaned_data['username']
+            password = self.cleaned_data['password']
+            user = authenticate(username=username, password= password)
+            if user:
+                login(request, user)
+                # return redirect('bboard:index')
+                return redirect(index)
+            return render(request, 'login.html', {'form': form})
+

@@ -10,6 +10,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
     path('edit/<int:pk>/', BbEditView.as_view(), name='edit'),
-    path('delete/<int:pk>/', BbDeleteView.as_view(), name='delete')
+    path('delete/<int:pk>/', BbDeleteView.as_view(), name='delete'),
     # path('download/', download, name='download')
 ]
