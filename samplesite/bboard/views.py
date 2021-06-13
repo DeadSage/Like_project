@@ -13,6 +13,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # @login_required()
@@ -61,10 +62,11 @@ def add_and_save(request):
         return render(request, 'bboard/create.html', context)
 
 
-class BbCreateView(CreateView):
+class BbCreateView(SuccessMessageMixin, CreateView):
     template_name = 'bboard/create.html'
     form_class = BbForm
     success_url = reverse_lazy('index')
+    success_message = 'Объявление о продаже товара создано'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
