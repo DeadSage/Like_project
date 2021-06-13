@@ -59,9 +59,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'samplesite.urls'
@@ -173,15 +174,14 @@ MEDIA_URL = '/media/'
 #         },
 #     },
 # },
-CACHES = {
-    'default': {
-        'BACKEND':
-            'django.core.cache.backends.memcached.MemcachedCache'
-            'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'localhost:11211',
-        'TIMEOUT': 120,
-        'OPTIONS': {
-            'MAX_ENTRIES': 200,
-        }
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND':
+#             'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': 'localhost:11211',
+#         'TIMEOUT': 120,
+#         'OPTIONS': {
+#             'MAX_ENTRIES': 200,
+#         }
+#     }
+# }
