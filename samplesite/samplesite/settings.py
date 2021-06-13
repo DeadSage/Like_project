@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -174,14 +175,13 @@ MEDIA_URL = '/media/'
 #         },
 #     },
 # },
-# CACHES = {
-#     'default': {
-#         'BACKEND':
-#             'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': 'localhost:11211',
-#         'TIMEOUT': 120,
-#         'OPTIONS': {
-#             'MAX_ENTRIES': 200,
-#         }
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND':
+            'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/0',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_CACHE_ALIAS = 'session_storage'
