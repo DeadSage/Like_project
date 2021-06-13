@@ -175,13 +175,14 @@ MEDIA_URL = '/media/'
 #         },
 #     },
 # },
-CACHES = {
-    'default': {
-        'BACKEND':
-            'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://localhost:6379/0',
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND':
+#             'django_redis.cache.RedisCache',
+#         'LOCATION':
+#             'redis://localhost:6379/0',
+#     }
+# }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 # SESSION_CACHE_ALIAS = 'session_storage'
