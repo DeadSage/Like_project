@@ -1,12 +1,13 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 
 from .models import Bb, Rubric, Img
 from django.template.loader import get_template
-from .forms import BbForm, ImgForm, LoginForm
+from .forms import BbForm, ImgForm, LoginForm, RegistrationForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView, SingleObjectMixin
@@ -187,10 +188,33 @@ class LoginView(FormView):
         if form.is_valid():
             username = self.cleaned_data['username']
             password = self.cleaned_data['password']
-            user = authenticate(username=username, password= password)
+            user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
                 # return redirect('bboard:index')
                 return redirect(index)
-            return render(request, 'login.html', {'form': form})
+            context = {'form': form}
+            return render(request, 'login.html', context)
 
+
+class RegistrationView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST or None)
+        context = {'form': form}
+        return render(request, 'registration/registration.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST or None)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['username']
+            new_user.email = form.cleaned_data['email']
+            new_user.save()
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, user)
+            return redirect('index')
+        context = {'form': form}
+        return render(request, 'registration/registration.html', context)

@@ -23,8 +23,9 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
 urlpatterns = [
     path('social/', include('social_django.urls', namespace='social')),
     path('', LoginView.as_view(), name='login'),
-    path('accounts/password_change/', PasswordChangeView.as_view(
-        template_name='registration/change_password.html'), name='password_change'),
+    # path('accounts/password_change/', PasswordChangeView.as_view(
+    #     template_name='registration/password_change_form.html'
+    # ), name='password_change'),
     path('accounts/logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('accounts/password_change/done', PasswordChangeDoneView.as_view(
         template_name='registration/password_change.html'), name='password_change_done'),
