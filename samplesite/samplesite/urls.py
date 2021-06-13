@@ -21,7 +21,6 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 urlpatterns = [
-    path('social/', include('social_django.urls', namespace='social')),
     path('', LoginView.as_view(), name='login'),
     # # path('accounts/password_change/', PasswordChangeView.as_view(
     # #     template_name='registration/password_change_form.html'

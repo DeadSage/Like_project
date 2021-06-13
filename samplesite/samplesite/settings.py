@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'django_cleanup',
     'easy_thumbnails',
     'imagekit',
-    # 'social_django',
+    'social_django',
+    'oauth2_provider',
+    'rest_framework_social_oauth2',
 ]
 
 MIDDLEWARE = [
@@ -75,17 +77,26 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.static',
-                # 'social_django.contest_processors.backends',
-                # 'social_django.contest_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
-# AUTHENTICATION_BACKENDS = (
-#     'social_core.backend.vk.VKOAuth2',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
+REST_FRAMEWORK = {
+
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "rest_framework_social_oauth2.authentication.SocialAuthentication",
+    ]
+}
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = '7878231'
 

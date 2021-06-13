@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import index, by_rubric
 from .views import add_and_save, BbDetailView, BbEditView, BbDeleteView, RegistrationView
 from django.contrib.auth.views import PasswordChangeView
@@ -25,4 +25,7 @@ urlpatterns = [
          PasswordResetConfirmView, name='password_reset_confirm'),
     path('password_reset/complete/', PasswordResetCompleteView,
          name='password_reset_complete'),
+    # path('auth/', include('rest_framework_social_oauth2.urls', name='vk')),
+    # path('social/', include('social_django.urls', namespace='social')),
+    # path('auth/', include('rest_framework_social_oauth2.urls')),
 ]
