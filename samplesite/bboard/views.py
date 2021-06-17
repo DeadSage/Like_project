@@ -2,7 +2,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse, JsonResponse
 from django.views import View
-from django.views.generic import TemplateView
+from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.viewsets import ModelViewSet
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from .serializers import RubricSerializer
 from .models import Bb, Rubric, Img
@@ -15,13 +18,36 @@ from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login
 from django.contrib.messages.views import SuccessMessageMixin
 
+# @api_view(['GET'])
+# def api_rubrics(request):
+#     if request.method == 'GET':
+#         rubrics = Rubric.objects.all()
+#         serializer = RubricSerializer(rubrics, many=True)
+#         return Response(serializer.data)
+#
+#
+# @api_view(['GET'])
+# def api_rubrics_detail(request, pk):
+#     if request.method == 'GET':
+#         rubric = Rubric.objects.get(pk=pk)
+#         serializer = RubricSerializer(rubric)
+#         return Response(serializer.data)
 
-def api_rubrics(request):
-    if request.method == 'GET':
-        rubrics = Rubric.objects.all()
-        serializer = RubricSerializer(rubrics, many=True)
-        return JsonResponse(serializer.data, safe=False)
+"""высокоуровневый контроллеры"""
+# class APIRubrics(generics.ListCreateAPIView):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
+#
+#
+# class APIRubricDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
+"""метаконтроллеры"""
 
+
+class APIRubricViewSet(ModelViewSet):
+    queryset = Rubric.objects.all()
+    serializer_class = RubricSerializer
 
 # @login_required()
 def index(request):
