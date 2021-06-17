@@ -196,19 +196,19 @@ MEDIA_URL = '/media/'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-
 # SESSION_CACHE_ALIAS = 'session_storage'
-
-def info_filter(message):
-    return message.levelname == 'INFO'
 
 
 LOGGING = {
     'version': 1,
+    'disable_existing_loggers': True,
     'filters': {
-        'info_filter': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': info_filter,
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
         },
     },
     'formatters': {
@@ -218,14 +218,33 @@ LOGGING = {
         },
     },
     'handlers': {
+        'console_dev': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'filters': ['require_debug_true'],
+        },
+        'console_prod': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+        },
         'file': {
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/Users/deadsage14235icloud.com/Documents/GitHub/Like_project/samplesite/logs/django-site.log',
-            'when': 'D',
-            'interval': 10,
-            'utc': True,
+            'maxBytes': 1048576,
             'backupCount': 10,
+            'formatter': 'simple',
         },
     },
+    'loggers': {
+        'django': {
+            'handlers': ['console_dev', 'console_prod'],
+        },
+        'django.server': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    }
 }
