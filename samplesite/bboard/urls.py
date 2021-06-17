@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import index, by_rubric
+from .views import index, by_rubric, api_rubrics
 from .views import add_and_save, BbDetailView, BbEditView, BbDeleteView, RegistrationView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
@@ -8,6 +8,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 # from .views import download
 
 urlpatterns = [
+    path('api/rubrics/', api_rubrics),
     path('<int:rubric_id>/', by_rubric, name='by_rubric'),
     path('add/', add_and_save, name='add'),
     path('', index, name='index'),

@@ -1,10 +1,10 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse, JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
-
+from .serializers import RubricSerializer
 from .models import Bb, Rubric, Img
 from django.template.loader import get_template
 from .forms import BbForm, ImgForm, LoginForm, RegistrationForm
@@ -14,6 +14,13 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login
 from django.contrib.messages.views import SuccessMessageMixin
+
+
+def api_rubrics(request):
+    if request.method == 'GET':
+        rubrics = Rubric.objects.all()
+        serializer = RubricSerializer(rubrics, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 # @login_required()
