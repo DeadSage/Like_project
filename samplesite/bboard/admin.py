@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Bb, Rubric
+from django.db.models import F
 
 
 class PriceListFilter(admin.SimpleListFilter):
@@ -30,7 +31,49 @@ class BbAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content',)
     date_hierarchy = 'published'
     empty_value_display = '----'
+    radio_fields = {'rubric': admin.VERTICAL}
+    actions = ('discount',)
+
+    def discount(self, request, queryset):
+        f = F('price')
+        for rec in queryset:
+            rec.price = f / 2
+            rec.save()
+        self.message_user(request, 'Действие выполнено')
+
+    discount.short_description = 'Уменьшить цену вдвое'
+
+    fieldsets = (
+        (None, {
+            'fields': (('title', 'rubric'), 'content'),
+            'classes': ('wide',),
+        }),
+        ('Дополнительные сведения', {
+            'fields': ('price',),
+            'description': 'Параметры, необязательные для указания.',
+        })
+    )
+
+    def get_fields(self, request, obj=None):
+        f = ['title', 'content', 'price']
+        if not obj:
+            f.append('rubric')
+        return f
+
+
+class BbInline(admin.StackedInline):
+    model = Bb
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj:
+            return 3
+        else:
+            return 10
+
+
+class RubricAdmin(admin.ModelAdmin):
+    inlines = [BbInline]
 
 
 admin.site.register(Bb, BbAdmin)
-admin.site.register(Rubric)
+admin.site.register(Rubric, RubricAdmin)
