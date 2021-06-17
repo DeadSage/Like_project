@@ -195,4 +195,37 @@ MEDIA_URL = '/media/'
 # }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+
 # SESSION_CACHE_ALIAS = 'session_storage'
+
+def info_filter(message):
+    return message.levelname == 'INFO'
+
+
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'info_filter': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': info_filter,
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s] %(levelname)s: %(message)s',
+            'datefmt': '%Y.%m.%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'level': 'INFO',
+            'filename': '/Users/deadsage14235icloud.com/Documents/GitHub/Like_project/samplesite/logs/django-site.log',
+            'when': 'D',
+            'interval': 10,
+            'utc': True,
+            'backupCount': 10,
+        },
+    },
+}
