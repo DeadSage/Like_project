@@ -98,6 +98,12 @@ TEMPLATES = [
 #         "rest_framework_social_oauth2.authentication.SocialAuthentication",
 #     ]
 # }
+REST_FRAMEWORK = {
+
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ]
+}
 #
 # AUTHENTICATION_BACKENDS = (
 #     'social_core.backends.vk.VKOAuth2',

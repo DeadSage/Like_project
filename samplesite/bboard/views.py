@@ -2,6 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse, JsonResponse
 from django.views import View
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -48,6 +49,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class APIRubricViewSet(ModelViewSet):
     queryset = Rubric.objects.all()
     serializer_class = RubricSerializer
+    permission_classes = (IsAuthenticated,)
 
 # @login_required()
 def index(request):
