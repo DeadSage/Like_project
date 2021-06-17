@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, FileResponse, JsonResponse, Http404
 from django.views import View
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from django.template import TemplateDoesNotExist
 from rest_framework.viewsets import ModelViewSet
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from .serializers import RubricSerializer
@@ -18,6 +19,15 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login
 from django.contrib.messages.views import SuccessMessageMixin
+
+
+def other_page(request, page):
+    try:
+        template = get_template('bboard/' + page + '.html')
+    except TemplateDoesNotExist:
+        raise Http404
+    return HttpResponse(template.render(request=request))
+
 
 # @api_view(['GET'])
 # def api_rubrics(request):
@@ -51,23 +61,27 @@ class APIRubricViewSet(ModelViewSet):
     serializer_class = RubricSerializer
     permission_classes = (IsAuthenticated,)
 
+
 # @login_required()
+# def index(request):
+#     if request.user.is_authenticated:
+#         bbs = Bb.objects.all()
+#         rubrics = Rubric.objects.all()
+#         paginator = Paginator(bbs, 2)
+#         if 'page' in request.GET:
+#             page_num = request.GET['page']
+#         else:
+#             page_num = 1
+#         page = paginator.get_page(page_num)
+#         context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
+#         template = get_template('bboard/index.html')
+#         # return render(request, 'bboard/index.html', context)
+#         return HttpResponse(template.render(context=context, request=request))
+#     else:
+#         return redirect('login')
+
 def index(request):
-    if request.user.is_authenticated:
-        bbs = Bb.objects.all()
-        rubrics = Rubric.objects.all()
-        paginator = Paginator(bbs, 2)
-        if 'page' in request.GET:
-            page_num = request.GET['page']
-        else:
-            page_num = 1
-        page = paginator.get_page(page_num)
-        context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
-        template = get_template('bboard/index.html')
-        # return render(request, 'bboard/index.html', context)
-        return HttpResponse(template.render(context=context, request=request))
-    else:
-        return redirect('login')
+    return render(request, 'bboard/index.html')
 
 
 def by_rubric(request, rubric_id):
