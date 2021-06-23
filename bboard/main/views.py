@@ -5,12 +5,19 @@ from django.template.loader import get_template
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from .forms import ChangeUserInfoForm
 from .models import AdvUser
+
+
+class BBPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
+    template_name = 'main/password_change.html'
+    success_url = reverse_lazy('main:profile')
+    success_message = 'Пароль был изменен'
 
 
 class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
@@ -28,6 +35,7 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         if not queryset:
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
+
 
 class BBLogoutView(LogoutView, LoginRequiredMixin):
     template_name = 'main/logout.html'
