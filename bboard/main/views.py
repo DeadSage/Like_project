@@ -1,4 +1,5 @@
 from django.http import Http404, HttpResponse
+from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
@@ -6,12 +7,41 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-from .forms import ChangeUserInfoForm
+from .forms import ChangeUserInfoForm, RegisterUserForm
 from .models import AdvUser
+from django.core.signing import BadSignature
+from .utilities import singer
+
+
+def user_activate(request, sing):
+    try:
+        username = singer.unsign(sing)
+    except BadSignature:
+        return render(request, 'main/bad_signature.html')
+    user = get_object_or_404(AdvUser, username=username)
+    if user.is_activated:
+        template = 'main/user_is_activated.html'
+    else:
+        template = 'main/activation_done.html'
+        user.is_active = True
+        user.is_activated = True
+        user.save()
+    return render(request, template)
+
+
+class RegisterDoneView(TemplateView):
+    template_name = 'main/register_done.html'
+
+
+class RegisterUserView(CreateView):
+    model = AdvUser
+    template_name = 'main/register_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('main:register_done')
 
 
 class BBPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
