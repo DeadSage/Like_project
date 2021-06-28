@@ -112,3 +112,7 @@ def other_page(request, page):
 
 class BBLoginView(LoginView):
     template_name = 'main/login.html'
+
+
+def by_rubric(request, pk):
+    pass
