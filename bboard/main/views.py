@@ -97,11 +97,15 @@ class BBLogoutView(LogoutView, LoginRequiredMixin):
 
 @login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    bbs = Bb.objects.filter(author=request.user.pk)
+    context = {'bbs': bbs}
+    return render(request, 'main/profile.html', context)
 
 
 def index(request):
-    return render(request, "main/index.html")
+    bbs = Bb.objects.filter(is_active=True)[:10]
+    context = {'bbs': bbs}
+    return render(request, "main/index.html", context)
 
 
 def other_page(request, page):
@@ -141,3 +145,13 @@ def detail(request, rubric_pk, pk):
     ais = bb.additionalimage_set.all()
     context = {'bb': bb, 'ais': ais}
     return render(request, 'main/detail.html', context)
+
+
+def profile_bb_detail(request, rubric_pk, sing, pk):
+    username = singer.unsign(sing)
+    user = get_object_or_404(AdvUser, username=username)
+    if user.is_activated:
+        bb = get_object_or_404(Bb, pk=pk)
+        ais = bb.additionalimage_set.all()
+        context = {'bb': bb, 'ais': ais}
+    return render(request, 'main/profile_bb_detail.html', context)
