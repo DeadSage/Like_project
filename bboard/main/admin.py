@@ -1,7 +1,7 @@
 from django.contrib import admin
 import datetime
 from .forms import SubRubricForm
-from .models import AdvUser, SuperRubric, SubRubric, Bb, AdditionalImage
+from .models import AdvUser, SuperRubric, SubRubric, Bb, AdditionalImage, Comment
 from .utilities import send_activation_notification
 
 
