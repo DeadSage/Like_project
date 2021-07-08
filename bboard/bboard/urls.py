@@ -6,6 +6,7 @@ from django.contrib.staticfiles.views import serve
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('captcha/', include('captcha.urls')),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
 ]
