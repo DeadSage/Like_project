@@ -36,4 +36,4 @@ laziness left by the current user;
 * About the page for changing the password, editing and deleting the user profile; 
  
 * About the page of information about the site, about the rights of its developer, user
-announcements
+announcements, ets.
