@@ -36,3 +36,4 @@ def comments(request, pk):
         serializer = CommentSirializer(comments, many=True)
         return Response(serializer.data)
 
+
