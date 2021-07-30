@@ -221,7 +221,3 @@ def profile_bb_detail(request, rubric_pk, sing, pk):
         ais = bb.additionalimage_set.all()
         context = {'bb': bb, 'ais': ais}
     return render(request, 'main/profile_bb_detail.html', context)
-
-
-
-
