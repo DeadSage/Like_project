@@ -35,5 +35,3 @@ def comments(request, pk):
         comments = Comment.objects.filter(is_active=True, bb=pk)
         serializer = CommentSirializer(comments, many=True)
         return Response(serializer.data)
-
-
