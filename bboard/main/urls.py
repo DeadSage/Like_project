@@ -42,3 +42,7 @@ urlpatterns = [
     path('accounts/login/', BBLoginView.as_view(), name='login'),
 
 ]
+
+
+
+
