@@ -112,7 +112,3 @@ def post_save_dispatcher(sender, **kwargs):
 
 
 post_save.connect(post_save_dispatcher, sender=Comment)
-
-
-
-
